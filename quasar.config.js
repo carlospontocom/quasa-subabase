@@ -12,6 +12,7 @@ export default defineConfig((/* ctx */) => {
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
     boot: [
+      'supabase'
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#css
@@ -43,7 +44,7 @@ export default defineConfig((/* ctx */) => {
       // https://v2.quasar.dev/quasar-cli-vite/page-routing-with-vue-router#filename-based-routing
       filenameBasedRouting: true,
 
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
 
@@ -56,26 +57,26 @@ export default defineConfig((/* ctx */) => {
       // distDir
 
       extendViteConf(viteConf) {
-        /**
-         * Needed for Stackblitz to work
-         */
+  /**
+   * Needed for Stackblitz to work
+   */
+  viteConf.css.preprocessorOptions.sass.api = 'legacy'
+  viteConf.css.preprocessorOptions.sass.silenceDeprecations.push(
+    'legacy-js-api'
+  )
 
-        viteConf.css.preprocessorOptions.sass.api = 'legacy'
-        viteConf.css.preprocessorOptions.sass.silenceDeprecations.push(
-          'legacy-js-api'
-        )
+  viteConf.css.preprocessorOptions.scss.api = 'legacy'
+  viteConf.css.preprocessorOptions.scss.silenceDeprecations.push(
+    'legacy-js-api'
+  )
 
-        viteConf.css.preprocessorOptions.scss.api = 'legacy'
-        viteConf.css.preprocessorOptions.scss.silenceDeprecations.push(
-          'legacy-js-api'
-        )
-      },
-
-      // viteVuePluginOptions: {},
-
-      // vitePlugins: [
-      //   [ 'package-name', { ..pluginOptions.. }, { server: true, client: true } ]
-      // ]
+   viteConf.define = {
+    ...viteConf.define,
+    'import.meta.env.VITE_SUPABASE_URL': JSON.stringify('https://mjydscivngccazwoyblg.supabase.co'),
+    'import.meta.env.VITE_SUPABASE_ANON_KEY': JSON.stringify('sb_publishable_8ecTSNBYnMnUbR1ynntDCw_LZC-h94P')
+  }
+ },
+ 
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#devserver
@@ -101,7 +102,7 @@ export default defineConfig((/* ctx */) => {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: ['Notify','Dialog']
     },
 
     // animations: 'all', // --- includes all animations
